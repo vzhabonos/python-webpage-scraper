@@ -19,7 +19,7 @@ class App(tk.Frame):
     def create_input(self):
         self.input_label = tk.Label(text="Enter URL for parsing: ")
         self.input_label.pack()
-        self.url = tk.StringVar();
+        self.url = tk.StringVar()
         self.input = tk.Entry(textvariable=self.url)
         self.input.pack()
         self.create_log_window()
@@ -27,13 +27,13 @@ class App(tk.Frame):
     def create_file_input(self):
         self.file_input_label = tk.Label(text="Choose directory for storing files: ")
         self.file_input_label.pack()
-        self.directory = tk.StringVar();
+        self.directory = tk.StringVar()
         self.file_input = tk.Entry(textvariable=self.directory)
         self.file_input['state'] = tk.DISABLED
         self.file_input.pack()
 
     def create_select_dir_button(self):
-        self.select_dir_button = tk.Button(self.parent);
+        self.select_dir_button = tk.Button(self.parent)
         self.select_dir_button['text'] = 'Select directory'
         self.select_dir_button['command'] = self.select_directory
         self.select_dir_button.pack()
@@ -50,7 +50,7 @@ class App(tk.Frame):
         self.select_dir_button['state'] = tk.NORMAL
 
     def create_copy_button(self):
-        self.copy_button = tk.Button(self.parent);
+        self.copy_button = tk.Button(self.parent)
         self.copy_button['text'] = 'Start'
         self.copy_button['command'] = self.copy_button_clicked
         self.copy_button.pack()
@@ -70,6 +70,7 @@ class App(tk.Frame):
     def show_error_message(self, message):
         messagebox.showerror('Error!', message)
 
+    # Main function for all process of parsing
     def copy_button_clicked(self):
         self.copy_button['text'] = 'Loading...'
         self.copy_button['state'] = tk.DISABLED
@@ -80,15 +81,14 @@ class App(tk.Frame):
             parser.set_url(url)
             try:
                 content = parser.get_content()
-                print(content)
                 self.write_log("Received HTML page from " + url)
+                FileHelper.create_file('index.html', directory, content.decode('utf-8'))
+                self.write_log("Saved HTML page to " + directory + '/index.html')
             except Exception as e:
                 self.write_log(e)
                 self.show_error_message(e)
         else:
             self.write_log("Directory '" + directory + "' not exists")
             self.show_error_message("Directory '" + directory + "' not exists")
-
-
         self.copy_button['text'] = 'Start'
         self.copy_button['state'] = tk.NORMAL

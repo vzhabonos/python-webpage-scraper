@@ -38,3 +38,13 @@ class FileHelper:
         else:
             return False
 
+    @staticmethod
+    def create_file(file, path, content = None):
+        if not FileHelper.directory_exists(path):
+            FileHelper.create_path_recursively(path)
+        # Check if path have slash at the end and add slash if not
+        if path[-1] != "/":
+            path = path + "/"
+        file = open(path + file, "a+")
+        file.write(content)
+        file.close()
