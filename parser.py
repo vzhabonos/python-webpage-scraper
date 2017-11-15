@@ -7,7 +7,7 @@ class Parser:
     soap = None;
 
     def init_soap(self):
-        if not isinstance(soap, BeautifulSoup):
+        if not isinstance(self.soap, BeautifulSoup):
             self.soap = BeautifulSoup(self.content, 'html.parser')
 
     def set_url(self, url):
