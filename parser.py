@@ -19,9 +19,9 @@ class Parser:
     def get_content(self):
         r = requests.get(self.url)
         if r.status_code == 200 and r.reason == 'OK':
-            self.content = r.content;
+            self.content = r.content
+            self.init_soap()
         return self.content
 
-    def get_prettified_content(self):
-        soup = BeautifulSoup(self.content, 'html.parser')
-        return soup.prettify('UTF-8')
+    def get_nodes(self, tag_name):
+        return self.soap.find_all(tag_name)

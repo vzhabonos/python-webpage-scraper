@@ -17,7 +17,7 @@ class FileHelper:
             # no need to continue
             return
 
-        if not FileHelper.is_path_absolute(path):
+        if FileHelper.is_path_absolute(path):
             # change working directory on "/" if given path are absolute
             os.chdir('/')
 
