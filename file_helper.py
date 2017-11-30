@@ -45,6 +45,14 @@ class FileHelper:
         # Check if path have slash at the end and add slash if not
         if path[-1] != "/":
             path = path + "/"
-        file = open(path + file, "a+")
+        filepath = path + file
+        if os.path.exists(filepath) and os.path.isfile(filepath):
+            os.remove(filepath)
+        file = open(filepath, "a+")
         file.write(content)
         file.close()
+
+    @staticmethod
+    def delete_folder_if_exists(path):
+        if os.path.exists(path) and os.path.isdir(path):
+            os.rmdir(path)

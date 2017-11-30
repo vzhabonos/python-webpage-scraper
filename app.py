@@ -3,6 +3,7 @@ from tkinter import messagebox
 from tkinter import filedialog
 from parser import Parser
 from file_helper import FileHelper
+from pprint import pprint
 
 
 class App(tk.Frame):
@@ -88,18 +89,21 @@ class App(tk.Frame):
             try:
                 content = parser.get_content()
                 self.write_log("Received HTML page from " + url)
-                FileHelper.create_file('index.html', directory, content.decode('utf-8'))
+                FileHelper.create_file('index.html', directory, content.decode("UTF-8"))
                 self.write_log("Saved HTML page to " + directory + '/index.html')
+                FileHelper.delete_folder_if_exists(css_directory)
                 FileHelper.create_path_recursively(css_directory)
                 self.write_log("Created directory for saving CSS stylesheets")
+                FileHelper.delete_folder_if_exists(js_directory)
                 FileHelper.create_path_recursively(js_directory)
                 self.write_log("Created directory for saving JS scripts")
 
                 link_nodes = parser.get_nodes('link')
+                print(link_nodes)
                 for node in link_nodes:
                     link = url + node.get('href')
-                    print(link)
-
+                    css_content = Parser.get_content_from_url(link)
+                    pprint(css_content)
 
             except Exception as e:
                 self.write_log("ERROR")
