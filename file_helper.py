@@ -1,4 +1,5 @@
 import os.path
+import shutil
 
 
 class FileHelper:
@@ -55,4 +56,4 @@ class FileHelper:
     @staticmethod
     def delete_folder_if_exists(path):
         if os.path.exists(path) and os.path.isdir(path):
-            os.rmdir(path)
+            shutil.rmtree(path)
