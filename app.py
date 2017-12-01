@@ -3,7 +3,6 @@ from tkinter import messagebox
 from tkinter import filedialog
 from parser import Parser
 from file_helper import FileHelper
-from pprint import pprint
 import re
 import uuid
 
@@ -101,6 +100,7 @@ class App(tk.Frame):
                 css_regexp = re.compile("\.css$", re.IGNORECASE)
                 for node in link_nodes:
                     link = Parser.form_script_url(url, node.get('href'))
+                    link = str(link)
                     if css_regexp.search(link):
                         script_name = re.findall('\w+\.css', link, re.IGNORECASE)
                         if len(script_name) > 0:
@@ -122,9 +122,10 @@ class App(tk.Frame):
                     src = node.get('src')
                     link = None
                     if src:
-                        link = Parser.form_script_url(url, node.get('src'))
+                        link = Parser.form_script_url(url, src)
+                    link = str(link)
                     if js_regexp.search(link):
-                        script_name = re.findall('\w+\.js', link, re.IGNORECASE);
+                        script_name = re.findall('\w+\.js', str(link), re.IGNORECASE);
                         if len(script_name) > 0:
                             script_name = script_name[0]
                         else:
@@ -132,7 +133,7 @@ class App(tk.Frame):
                         js_content = Parser.get_content_from_url(link)
                         if js_content:
                             FileHelper.create_file(script_name, directory + self.js_path, js_content.decode("UTF-8"))
-                            self.write_log("Saved JS - " + self.css_path + script_name)
+                            self.write_log("Saved JS - " + self.js_path + script_name)
                         else:
                             self.write_log("Can't get content from - " + link)
             except Exception as e:
